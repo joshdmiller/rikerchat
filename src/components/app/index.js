@@ -4,7 +4,13 @@ import './styles.css';
 
 import Chat from 'components/chat';
 
-export default () => (
-  <Chat />
+export default ({
+  recipient,
+  messages,
+}) => (
+  <Chat
+    recipient={recipient}
+    messages={messages}
+  />
 );
 

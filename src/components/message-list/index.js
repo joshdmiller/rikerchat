@@ -4,20 +4,22 @@ import './styles.css';
 
 import Message from 'components/message';
 
-export default () => (
+export default ({
+  messages = [],
+}) => (
   <div className="message-list">
-    <Message
-      us
-      msg="I suppose that's true."
-      name='You'
-      avatar='http://assets.rikerchat.joshdavidmiller.com/troi.jpg'
-    />
-    <Message
-      them
-      msg='Besides, you look good in a dress.'
-      name='Imzadi'
-      avatar='http://assets.rikerchat.joshdavidmiller.com/riker.jpg'
-    />
+    {
+      messages.map( msg => 
+        <Message
+          key={msg.id}
+          us={msg.self}
+          them={! msg.self}
+          msg={msg.text}
+          name={msg.name}
+          avatar={msg.avatar}
+        />
+      )
+    }
   </div>
 );
 

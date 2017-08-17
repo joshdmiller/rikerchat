@@ -6,10 +6,13 @@ import Profile from 'components/profile';
 import MessageList from 'components/message-list';
 import Compose from 'components/compose';
 
-export default () => (
+export default ({
+  recipient,
+  messages,
+}) => (
   <div className='container chat'>
-    <Profile />
-    <MessageList />
+    <Profile name={recipient.name} billet={recipient.billet} />
+    <MessageList messages={messages} />
     <Compose />
   </div>
 );
