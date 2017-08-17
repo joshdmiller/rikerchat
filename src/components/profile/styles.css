@@ -1,0 +1,49 @@
+.profile {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+	text-align: center;
+	color: #fff;
+  overflow: hidden;
+	padding: 25px 0;
+}
+
+.profile__cover {
+  position: absolute;
+  margin: -5px;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: #fff url("http://assets.rikerchat.joshdavidmiller.com/enterprise-d.jpg") 50% 50% no-repeat;
+  background-size: cover;
+  filter: blur( 2px );
+}
+
+.profile__avatar {
+  width: 68px;
+  height: 68px;
+	border: 3px solid #fff;
+	border-radius: 50%;
+  border: 3px solid #fff;
+  background: #fff url("http://assets.rikerchat.joshdavidmiller.com/riker.jpg") 50% 50% no-repeat;
+  background-size: cover;
+  z-index: 1;
+}
+
+.profile__username {
+  font-weight: 600;
+  font-size: 15px;
+  margin-top: 10px;
+  z-index: 1;
+}
+
+.profile__billet {
+  margin-top: 3px;
+  font-style: italic;
+  font-weight:400;
+	font-size:11px;
+  z-index: 1;
+}
+

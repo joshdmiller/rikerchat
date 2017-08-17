@@ -1,0 +1,38 @@
+.compose {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height:60px;
+  border-top:1px solid #e7ebee;	
+  background:#fff;
+  padding-bottm:50px;
+}
+
+.compose__input {
+  flex: 1;
+  background: #fff;
+	margin: 0 20px;
+	border: none;
+	padding: 0;
+	font-size: 14px;
+	font-weight: 400px;
+	color: #aab8c2;
+}
+
+.compose__submit {
+  background: #fff url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/send.png") 0 -31px no-repeat;
+	width: 30px;
+	height: 37px;
+  padding: 10px 20px;
+	border: none;
+}
+
+.compose__submit:hover{
+  cursor: pointer;
+}
+
+.compose__submit:focus,
+.compose__input:focus {
+  outline: none;
+}
+
