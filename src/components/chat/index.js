@@ -9,11 +9,14 @@ import Compose from 'components/compose';
 export default ({
   recipient,
   messages,
+  onComposeChange,
+  draftMessage,
+  onSendMessage,
 }) => (
   <div className='container chat'>
     <Profile name={recipient.name} billet={recipient.billet} />
     <MessageList messages={messages} />
-    <Compose />
+    <Compose value={draftMessage} onChange={onComposeChange} onSubmit={onSendMessage} />
   </div>
 );
 

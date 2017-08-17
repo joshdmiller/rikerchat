@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import shortid from 'shortid';
 
 import App from 'components/app';
 
@@ -9,6 +10,10 @@ const state = {
     billet: 'First Office, USS Enterprise',
     avatar: 'http://assets.rikerchat.joshdavidmiller.com/riker.jpg',
     cover: 'http://assets.rikerchat.joshdavidmiller.com/enterprise-d.jpg',
+  },
+
+  compose: {
+    message: '',
   },
 
   messages: [
@@ -29,11 +34,36 @@ const state = {
   ],
 };
 
-ReactDOM.render(
+const onComposeChange = v => {
+  state.compose.message = v;
+
+  render( state );
+};
+
+const onSendMessage = () => {
+  state.messages.push({
+    id: shortid.generate(),
+    name: 'You',
+    avatar: 'http://assets.rikerchat.joshdavidmiller.com/troi.jpg',
+    self: true,
+    text: state.compose.message,
+  });
+
+  state.compose.message = '';
+
+  render( state );
+};
+
+const render = state => ReactDOM.render(
   <App
     recipient={state.recipient}
     messages={state.messages}
+    draftMessage={state.compose.message}
+    onComposeChange={onComposeChange}
+    onSendMessage={onSendMessage}
   />
   , document.getElementById( 'app' )
 );
+
+render( state );
 
