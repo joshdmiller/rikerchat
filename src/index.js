@@ -1,10 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import shortid from 'shortid';
+import { fromJS, Map } from 'immutable';
 
 import App from 'components/app';
+import { createStore } from './store';
 
-const state = {
+const initialState = fromJS({
   recipient: {
     name: 'William T. Riker',
     billet: 'First Office, USS Enterprise',
@@ -32,38 +34,54 @@ const state = {
       self: false,
     },
   ],
+});
+
+const reducer = ( state, action ) => {
+  switch ( action.type ) {
+    case 'SET_COMPOSE_MESSAGE':
+      return state.setIn( [ 'compose', 'message' ], action.payload );
+
+    case 'ADD_MESSAGE':
+      return state
+        .set( 'messages', state.get( 'messages' ).push( action.payload ) )
+        .setIn([ 'compose', 'message' ], '' )
+        ;
+
+    default:
+      return state;
+  }
 };
 
-const onComposeChange = v => {
-  state.compose.message = v;
+const store = createStore( reducer, initialState );
 
-  render( state );
-};
+const onComposeChange = store.actionFactory( payload => ({
+  type: 'SET_COMPOSE_MESSAGE',
+  payload,
+}));
 
-const onSendMessage = () => {
-  state.messages.push({
+const onSendMessage = store.actionFactory( state => ({
+  type: 'ADD_MESSAGE',
+
+  payload: fromJS({
     id: shortid.generate(),
     name: 'You',
     avatar: 'http://assets.rikerchat.joshdavidmiller.com/troi.jpg',
     self: true,
-    text: state.compose.message,
-  });
-
-  state.compose.message = '';
-
-  render( state );
-};
+    text: state.getIn([ 'compose', 'message' ]),
+  }),
+}));
 
 const render = state => ReactDOM.render(
   <App
-    recipient={state.recipient}
-    messages={state.messages}
-    draftMessage={state.compose.message}
+    recipient={state.get( 'recipient' )}
+    messages={state.get( 'messages' )}
+    draftMessage={state.getIn([ 'compose', 'message' ])}
     onComposeChange={onComposeChange}
     onSendMessage={onSendMessage}
   />
   , document.getElementById( 'app' )
 );
 
-render( state );
+store.subscribe( () => render( store.getState() ) );
+render( store.getState() );
 

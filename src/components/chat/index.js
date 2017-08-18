@@ -14,7 +14,7 @@ export default ({
   onSendMessage,
 }) => (
   <div className='container chat'>
-    <Profile name={recipient.name} billet={recipient.billet} />
+    <Profile name={recipient.get( 'name' )} billet={recipient.get( 'billet' )} />
     <MessageList messages={messages} />
     <Compose value={draftMessage} onChange={onComposeChange} onSubmit={onSendMessage} />
   </div>
