@@ -59,17 +59,25 @@ const onComposeChange = store.actionFactory( payload => ({
   payload,
 }));
 
-const onSendMessage = store.actionFactory( state => ({
+const createMessagePayload = (text, self) => ({
   type: 'ADD_MESSAGE',
 
   payload: fromJS({
     id: shortid.generate(),
-    name: 'You',
-    avatar: 'http://assets.rikerchat.joshdavidmiller.com/troi.jpg',
-    self: true,
-    text: state.getIn([ 'compose', 'message' ]),
+    name: self ? 'You' : 'Riker',
+    avatar: `http://assets.rikerchat.joshdavidmiller.com/${self ? 'troi' : 'riker'}.jpg`,
+    self,
+    text,
   }),
-}));
+});
+
+const onSendMessage = store.actionFactory(state => (dispatch, getState) => {
+  dispatch(createMessagePayload(state.getIn(['compose', 'message']), true));
+  fetch('https://api.rikerchat.joshdavidmiller.com/messages/random')
+    .then(response => response.json())
+    .then(response => createMessagePayload(response.message, false))
+    .then(action => dispatch(action))
+});
 
 const render = state => ReactDOM.render(
   <App
