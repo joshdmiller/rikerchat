@@ -10,9 +10,16 @@ const StorePrototype = {
     return this.state;
   },
 
-  dispatch ( action ) {
-    this.state = this.reducer( this.state, action );
+  _dispatch(action) {
+    this.state = this.reducer(this.state, action);
     this.notify();
+  },
+
+  dispatch(action) {
+    if (typeof action === 'function') {
+      return action((...args) => this.dispatch(...args), () => this.getState);
+    }
+    return this._dispatch(action);
   },
 
   actionFactory ( fn ) {
